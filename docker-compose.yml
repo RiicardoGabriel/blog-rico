@@ -7,7 +7,7 @@ services:
     # como a imagem do container
     build: .
     # Define um user específico, diferente de root para a execução dos comandos
-    # user: eval
+    # user: eval 
     # Nome do container para facilitar execução
     container_name: blogs_api
     # Mesmo que `docker run -t`
