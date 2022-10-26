@@ -7,6 +7,18 @@ const createCategory = async (req, res) => {
     res.status(201).json(obj);
 };
 
+const getAllCategories = async (_req, res) => {
+    try {
+        const usersList = await Category.findAll();
+  
+        return usersList;
+          } catch (e) {
+            console.log(e.message);
+            res.status(400).json({ message: 'An error has occurred' });
+          }
+};
+
 module.exports = {
     createCategory,
+    getAllCategories,
   };
