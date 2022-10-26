@@ -4,12 +4,14 @@ module.exports = (sequelize, DataTypes) => {
       title: { type: DataTypes.STRING },
       content: { type: DataTypes.STRING, unique: true },
       userId: { type: DataTypes.STRING },
-      published: { allowNull: false, type: DataTypes.DATE },
-      updated: { allowNull: false, type: DataTypes.DATE },
+      published: { type: DataTypes.DATE },
+      updated: { type: DataTypes.DATE },
     },
     {
+      createdAt: 'published',
+      updatedAt: 'updated',
       underscored: true,
-      timestamps: false,
+      timestamps: true,
       tableName: 'blog_posts'
     });
 
