@@ -20,11 +20,27 @@ const getAllUsers = async (_req, res) => {
       return usersList;
         } catch (e) {
           console.log(e.message);
-          res.status(400).json({ message: 'Ocorreu um erro.' });
+          res.status(400).json({ message: 'An error has occurred' });
+        }
+};
+
+const getIdUser = async (req, res) => {
+  try {
+      const [user] = await User.findAll({
+      where: { id: req.params.id },
+      attributes: { exclude: ['password'] },
+      });
+      console.log(user);
+      if (user === undefined) { return { type: 404 }; }
+      return user;
+        } catch (e) {
+          console.log(e.message);
+          res.status(400).json({ message: 'An error has occurred' });
         }
 };
 
 module.exports = {
   createUser,
   getAllUsers,
+  getIdUser,
 };
