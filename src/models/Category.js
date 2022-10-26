@@ -9,6 +9,5 @@ module.exports = (sequelize, DataTypes) => {
       tableName: 'categories'
     });
 
-
     return Category;
   };
