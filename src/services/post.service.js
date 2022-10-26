@@ -52,9 +52,6 @@ const putPostId = async (postId) => {
 
 const deletPosts = async (postId) => {
     const { id } = postId.params;
-    await PostCategory.destroy({
-        where: { postId: id },
-    });
     const postListId = await BlogPost.destroy({
         where: { id },
     });

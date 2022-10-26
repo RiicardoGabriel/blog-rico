@@ -1,6 +1,6 @@
 const express = require('express');
 const { login } = require('./controllers/auth.controller');
-const { newUser, getUsers, getUserById } = require('./controllers/Users.controller');
+const { newUser, getUsers, getUserById, deleteUs } = require('./controllers/Users.controller');
 const { createCategory } = require('./services/categories.service');
 const { getCategories } = require('./controllers/Categories.controller');
 const { newPost,
@@ -34,6 +34,7 @@ app.post('/user', validateDisplayName,
     validatePassword,
     validateEmail,
     newUser);
+app.delete('/user/me', validateToken.validateToken, deleteUs);
 
 app.post('/categories', validateToken.validateToken, validateCreateCategory,
     createCategory);
@@ -52,9 +53,7 @@ app.put('/post/:id',
     validateGetPostNonexistent,
     validatePutPost,
     putPostsId);
-app.delete('/post/:id',
-validateToken.validateToken,
-validateGetPostNonexistent, deletePost);
+app.delete('/post/:id', validateToken.validateToken, validateGetPostNonexistent, deletePost);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`

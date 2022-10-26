@@ -13,34 +13,43 @@ const createUser = async (acount) => {
 
 const getAllUsers = async (_req, res) => {
   try {
-      const usersList = await User.findAll({
-        attributes: { exclude: ['password'] },
-      });
+    const usersList = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
 
-      return usersList;
-        } catch (e) {
-          console.log(e.message);
-          res.status(400).json({ message: 'An error has occurred' });
-        }
+    return usersList;
+  } catch (e) {
+    console.log(e.message);
+    res.status(400).json({ message: 'An error has occurred' });
+  }
 };
 
 const getIdUser = async (req, res) => {
   try {
-      const [user] = await User.findAll({
+    const [user] = await User.findAll({
       where: { id: req.params.id },
       attributes: { exclude: ['password'] },
-      });
-      console.log(user);
-      if (user === undefined) { return { type: 404 }; }
-      return user;
-        } catch (e) {
-          console.log(e.message);
-          res.status(400).json({ message: 'An error has occurred' });
-        }
+    });
+    console.log(user);
+    if (user === undefined) { return { type: 404 }; }
+    return user;
+  } catch (e) {
+    console.log(e.message);
+    res.status(400).json({ message: 'An error has occurred' });
+  }
+};
+
+const deleteUser = async (id) => {
+  const delUser = await User.destroy({
+    where: { id },
+  });
+
+  return delUser;
 };
 
 module.exports = {
   createUser,
   getAllUsers,
   getIdUser,
+  deleteUser,
 };
