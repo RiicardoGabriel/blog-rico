@@ -1,4 +1,5 @@
 const postService = require('../services/post.service');
+const authService = require('../services/auth.service');
 
 const newPost = async (req, res) => {
     const newP = await postService.createPost(req);
@@ -18,8 +19,24 @@ const getPostsId = async (req, res) => {
     return res.status(200).json(getPost);
 };
 
+const putPostsId = async (req, res) => {
+    const { authorization } = req.headers;
+    const user = authService.validateToken(authorization);
+    const userId = user.id;
+
+    const getUser = await postService.getPostId(req);
+    const postUserId = getUser.userId;
+    
+    if (userId !== postUserId) return res.status(401).json({ message: 'Unauthorized user' });
+
+    const putPost = await postService.putPostId(req);
+
+    return res.status(200).json(putPost);
+};
+
 module.exports = {
     newPost,
     getPosts,
     getPostsId,
+    putPostsId,
 };
