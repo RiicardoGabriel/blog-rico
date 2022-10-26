@@ -7,8 +7,6 @@ const login = async (req, res) => {
 
     if (token.type === 400) return res.status(400).json({ message: 'Invalid fields' });
 
-    console.log(token.type);
-
     res.status(200).json({ token });
 };
 
