@@ -3,7 +3,7 @@ const { login } = require('./controllers/auth.controller');
 const { newUser, getUsers, getUserById } = require('./controllers/Users.controller');
 const { createCategory } = require('./services/categories.service');
 const { getCategories } = require('./controllers/Categories.controller');
-const { newPost, getPosts } = require('./controllers/Post.controller');
+const { newPost, getPosts, getPostsId } = require('./controllers/Post.controller');
 
 const validateLogin = require('./middlewares/validateLogin.middleware');
 const validateToken = require('./middlewares/auth.middleware');
@@ -14,6 +14,7 @@ const validateEmailRegist = require('./middlewares/validateCreateUserEmailRegist
 const validateCreateCategory = require('./middlewares/validateCreateCategory.middleware');
 const validateCreatePost = require('./middlewares/validateCreatePost.middleware');
 const validateCreatPostCategory = require('./middlewares/validateCreatePostCategory.middleware');
+const validateGetPostNonexistent = require('./middlewares/validateGetPostNonexistent.midelleware');
 
 const app = express();
 
@@ -39,9 +40,8 @@ validateToken.validateToken,
 validateCreatePost,
 validateCreatPostCategory,
 newPost);
-app.get('/post',
-validateToken.validateToken,
-getPosts);
+app.get('/post', validateToken.validateToken, getPosts);
+app.get('/post/:id', validateToken.validateToken, validateGetPostNonexistent, getPostsId);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
