@@ -33,13 +33,10 @@ const validateLogin = async ({ email, password }) => {
 
 const validateToken = (token) => {
     if (!token) {
-        const e = new Error('Token obrigatório!');
-        e.name = 'Token obrigatório';
-        throw e;
+        return { type: 401 };
     }
 
     const user = jwtUtil.validateToken(token);
-
     return user;
 };
 
