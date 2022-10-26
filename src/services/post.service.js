@@ -50,9 +50,22 @@ const putPostId = async (postId) => {
     return postListId;
 };
 
+const deletPosts = async (postId) => {
+    const { id } = postId.params;
+    await PostCategory.destroy({
+        where: { postId: id },
+    });
+    const postListId = await BlogPost.destroy({
+        where: { id },
+    });
+
+    return postListId;
+};
+
 module.exports = {
     createPost,
     getPosts,
     getPostId,
     putPostId,
+    deletPosts,
 };

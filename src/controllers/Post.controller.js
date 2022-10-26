@@ -26,7 +26,7 @@ const putPostsId = async (req, res) => {
 
     const getUser = await postService.getPostId(req);
     const postUserId = getUser.userId;
-    
+
     if (userId !== postUserId) return res.status(401).json({ message: 'Unauthorized user' });
 
     const putPost = await postService.putPostId(req);
@@ -34,9 +34,25 @@ const putPostsId = async (req, res) => {
     return res.status(200).json(putPost);
 };
 
+const deletePost = async (req, res) => {
+    const { authorization } = req.headers;
+    const user = authService.validateToken(authorization);
+    const userId = user.id;
+
+    const getUser = await postService.getPostId(req);
+    const postUserId = getUser.userId;
+
+    if (userId !== postUserId) return res.status(401).json({ message: 'Unauthorized user' });
+    
+    const delPost = await postService.deletPosts(req);
+
+    if (delPost) return res.status(204).json();
+};
+
 module.exports = {
     newPost,
     getPosts,
     getPostsId,
     putPostsId,
+    deletePost,
 };

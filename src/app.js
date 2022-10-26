@@ -3,7 +3,11 @@ const { login } = require('./controllers/auth.controller');
 const { newUser, getUsers, getUserById } = require('./controllers/Users.controller');
 const { createCategory } = require('./services/categories.service');
 const { getCategories } = require('./controllers/Categories.controller');
-const { newPost, getPosts, getPostsId, putPostsId } = require('./controllers/Post.controller');
+const { newPost,
+    getPosts,
+    getPostsId,
+    putPostsId,
+    deletePost } = require('./controllers/Post.controller');
 
 const validateLogin = require('./middlewares/validateLogin.middleware');
 const validateToken = require('./middlewares/auth.middleware');
@@ -48,6 +52,9 @@ app.put('/post/:id',
     validateGetPostNonexistent,
     validatePutPost,
     putPostsId);
+app.delete('/post/:id',
+validateToken.validateToken,
+validateGetPostNonexistent, deletePost);
 
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
