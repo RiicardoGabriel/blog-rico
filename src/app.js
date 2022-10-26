@@ -7,7 +7,8 @@ const { newPost,
     getPosts,
     getPostsId,
     putPostsId,
-    deletePost } = require('./controllers/Post.controller');
+    deletePost,
+    searchPost } = require('./controllers/Post.controller');
 
 const validateLogin = require('./middlewares/validateLogin.middleware');
 const validateToken = require('./middlewares/auth.middleware');
@@ -47,6 +48,7 @@ app.post('/post',
     validateCreatPostCategory,
     newPost);
 app.get('/post', validateToken.validateToken, getPosts);
+app.get('/post/search', validateToken.validateToken, searchPost);
 app.get('/post/:id', validateToken.validateToken, validateGetPostNonexistent, getPostsId);
 app.put('/post/:id',
     validateToken.validateToken,

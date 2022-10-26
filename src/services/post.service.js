@@ -1,5 +1,8 @@
+const Sequelize = require('sequelize');
 const { BlogPost, PostCategory, Category, User } = require('../models');
 const jwtUtil = require('../utils/jwt.util');
+
+const { Op } = Sequelize;
 
 const createPost = async (post) => {
     const { title, content, categoryIds } = post.body;
@@ -59,10 +62,25 @@ const deletPosts = async (postId) => {
     return postListId;
 };
 
+const SearchPosts = async (query) => {
+    const { q } = query.query;
+    const postListId = await BlogPost.findAll({
+        where: {
+            [Op.or]: [{ title: { [Op.like]: `%${q}%` } },
+            { content: { [Op.like]: `%${q}%` } }],
+        },
+        include: [{ model: User, as: 'user', attributes: { exclude: 'password ' } },
+        { model: Category, as: 'categories', through: { attributes: [] } }],
+    });
+
+    return postListId;
+};
+
 module.exports = {
     createPost,
     getPosts,
     getPostId,
     putPostId,
     deletPosts,
+    SearchPosts,
 };
